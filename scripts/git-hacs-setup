@@ -1,0 +1,57 @@
+#!/bin/bash
+# Quickly set up git worktrees for hacs dists (both legacy and modern).
+
+set -e
+
+echoInfo () { echo -e "\033[1;34m$1\033[0m" }
+echoSuccess() { echo -e "\033[1;32m$1\033[0m" }
+echoError() { echo -e "\033[1;31m$1\033[0m" }
+
+echoInfo "Setting up git worktrees for hacs dists (both legacy and modern)."
+
+echoInfo "Making sure we are in the root of the repo."
+pushd "$(dirname "$0")/.." > /dev/null
+
+echoInfo "Get current branch and it's remote."
+set +e
+current=$(git branch --show-current)
+if [ $? -ne 0 ]; then
+    echoError "Failed to get current branch."
+    exit 1
+fi
+remote=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+if [ $? -ne 0 ]; then
+    echoError "Failed to get remote of current branch."
+    exit 1
+fi
+remote=$(echo -n $remote | awk -F/ '{print $1}')
+set -e
+
+for type in modern legacy
+do
+    branch="hacs-$type"
+    echoInfo "Create a new branch called $branch."
+    git switch --orphan "$branch" > /dev/null
+
+    echoInfo "Create initial commit."
+    # add a commit to the branch with a ".gitignore".
+    # add node_modules to .gitignore to vscode doesn't try to index it while running this script.
+    echo -e "node_modules/" > .gitignore
+    git add .gitignore
+    git commit -m "Initial commit" > /dev/null
+
+    echoInfo "Track remote"
+    git config "branch.$branch.remote" $remote
+    git config "branch.$branch.merge" "refs/heads/$branch"
+
+    echoInfo "Switch back to $current."
+    git switch "$current" > /dev/null
+
+    echoInfo "Add worktree under hacs/$type."
+    git worktree add hacs/$type $branch > /dev/null
+
+    echoSuccess "Dist files for $type should be placed in hacs/$type/dist."
+done
+
+# go back to the original directory.
+popd > /dev/null

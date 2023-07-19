@@ -1,0 +1,48 @@
+{
+  "name": "@hass-ada/helpers",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Dependency helpers for @hass-ada/card-bundler",
+  "author": "Ada",
+  "license": "MIT",
+  "repository": "https://github.com/hass-ada/cards",
+  "keywords": [
+    "home-assistant",
+    "lovelace",
+    "card"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./frontend/ready": {
+      "types": "./dist/frontend/ready.d.ts",
+      "import": "./dist/frontend/ready.js"
+    },
+    "./dist/*": "./dist/*"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm run rollup -w",
+    "build": "pnpm run clean && pnpm run rollup",
+    "rollup": "rollup --config rollup.config.ts --configPlugin 'swc3'",
+    "clean": "rm -rf dist/*"
+  },
+  "devDependencies": {
+    "@hass-ada/card": "workspace:^",
+    "@hass-ada/tsconfig": "workspace:^",
+    "@swc/core": "^1.3.70",
+    "rollup": "^3.26.3",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-swc3": "0.9.1"
+  }
+}
