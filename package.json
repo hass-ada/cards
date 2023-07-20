@@ -34,7 +34,8 @@
     "@tsconfig/node18": "^18.2.0",
     "@types/node": "^20.4.2",
     "eslint": "^8.45.0",
-    "wireit": "^0.10.0"
+    "wireit": "^0.10.0",
+    "zx": "^7.2.3"
   },
   "pnpm": {
     "overrides": {

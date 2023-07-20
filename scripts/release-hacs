@@ -1,0 +1,61 @@
+#!/usr/bin/env zx
+/* eslint-disable no-undef */
+
+import 'zx/globals'
+
+cd(path.resolve(__dirname, '..'))
+
+const packagesDir = path.resolve(__dirname, '../packages')
+const workspaces = JSON.parse(await $`pnpm recursive list -r --json --depth=1`)
+const allPublishedPackages = JSON.parse($.env.PUBLISHED_PACKAGES)
+const cardPublishedPackages = allPublishedPackages.filter((publishedPkg) => {
+  const workspace = workspaces.find(workspace => workspace.name === publishedPkg.name)
+  const workspaceDir = path.relative(packagesDir, workspace.path)
+  return workspaceDir.startsWith('cards/')
+})
+
+echo`Found ${cardPublishedPackages.length} published cards: ${cardPublishedPackages.map(pkg => pkg.name).join(', ')}`
+
+if (cardPublishedPackages.length === 0)
+  exit(0)
+
+const tmp = path.resolve(__dirname, '../tmp')
+await $`mkdir -p ${tmp}`
+
+for (const publishedPkg of cardPublishedPackages) {
+  const workspace = workspaces.find(workspace => workspace.name === publishedPkg.name)
+  const newVersion = publishedPkg.version
+
+  const repoName = workspace.name.slice(1)
+  const repoUrl = `https://github.com/${repoName}`
+
+  const dir = path.resolve(workspace.path)
+  const hacsDir = path.resolve(dir, 'hacs')
+  const cloneDir = path.resolve(tmp, repoName)
+
+  const distPkg = await fs.readJson(`${dir}/dist/package.json`)
+  const pickKeys = ['name', 'version', 'description', 'keywords', 'author', 'license', 'repository', 'bugs', 'homepage']
+  const newPkg = Object.fromEntries(Object.entries(distPkg).filter(([key]) => pickKeys.includes(key)))
+
+  await $`git clone --filter=tree:0 ${repoUrl} ${cloneDir}`
+  cd(cloneDir)
+
+  await within(async () => {
+    cd(cloneDir)
+
+    await $`git switch -c hacs`
+    await $`mkdir -p ${cloneDir}/dist`
+    await $`cp -r ${hacsDir}/modern/**/*.js dist/`
+    await $`cp -r ${dir}/{README.md,hacs.json,INSTALL.md} .`
+    await fs.writeFile(`${cloneDir}/package.json`, JSON.stringify(newPkg, null, 2))
+    await $`git add .`
+    await $`git commit -m "chore: update to v${newVersion}"`
+    await $`git tag -a -m "chore: update to v${newVersion}" v${newVersion}`
+    await $`git push --set-upstream origin hacs`
+    await $`git push origin v${newVersion}`
+  })
+
+  await $`echo ${cloneDir}/*`
+}
+
+await $`rm -rf ${tmp}`

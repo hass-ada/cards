@@ -44,7 +44,9 @@ jobs:
         if: steps.changesets.outputs.hasChangesets == 'false'
         run: pnpm -r publish --access public
 
-      - name: Update card repos
+      - name: Update card repos with new hacs files
         if: steps.changesets.outputs.published == 'true'
         # You can do something when a publish happens.
-        run: echo "Placeholder"
+        run: pnpm exec zx scripts/release-hacs
+        env:
+          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
