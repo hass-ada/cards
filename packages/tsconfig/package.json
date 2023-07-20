@@ -1,7 +1,7 @@
 {
   "name": "@hass-ada/tsconfig",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple typescript config for developing home-assistant lovelace cards",
   "author": "Ada",
   "license": "MIT",

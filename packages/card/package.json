@@ -1,7 +1,7 @@
 {
   "name": "@hass-ada/card",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Card helpers for making home assistant lovelace cards.",
   "author": "Ada",
   "license": "MIT",
@@ -37,8 +37,14 @@
   "wireit": {
     "build": {
       "command": "rollup --config rollup.config.ts --configPlugin 'swc3'",
-      "files": ["src/**/*.ts", "tsconfig.json", "rollup.config.ts"],
-      "output": ["dist/**"]
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "rollup.config.ts"
+      ],
+      "output": [
+        "dist/**"
+      ]
     }
   },
   "devDependencies": {
