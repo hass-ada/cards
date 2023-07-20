@@ -49,5 +49,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update card repos with new hacs files
-        # You can do something when a publish happens.
+        if: steps.changesets.outputs.hasChangesets == 'false'
         run: pnpm exec zx scripts/release-hacs

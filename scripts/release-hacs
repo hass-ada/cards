@@ -7,6 +7,8 @@ cd(path.resolve(__dirname, '..'))
 
 const packagesDir = path.resolve(__dirname, '../packages')
 const workspaces = JSON.parse(await $`pnpm recursive list -r --json --depth=1`)
+if (!fs.existsSync('./pnpm-publish-summary.json'))
+  exit(0)
 const allPublishedPackages = await fs.readJSON('./pnpm-publish-summary.json').publishedPackages
 const cardPublishedPackages = allPublishedPackages.filter((publishedPkg) => {
   const workspace = workspaces.find(workspace => workspace.name === publishedPkg.name)
