@@ -19,13 +19,13 @@
   },
   "wireit": {
     "build": {
-      "command": "card-bundler build -i src/index.ts",
+      "command": "card-bundler build -i src/index.ts --hacs",
       "files": ["src/**/*.ts", "tsconfig.json"],
       "output": ["dist/**"],
       "dependencies": ["../../..:build:infra"]
     },
     "dev": {
-      "command": "card-bundler build -i src/index.ts -w",
+      "command": "card-bundler build -i src/index.ts --hacs -w",
       "dependencies": ["../../..:build:infra"],
       "service": true
     }
@@ -43,5 +43,8 @@
   "devDependencies": {
     "@hass-ada/card-bundler": "workspace:^",
     "@hass-ada/tsconfig": "workspace:^"
+  },
+  "publishConfig": {
+    "directory": "dist"
   }
 }

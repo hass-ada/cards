@@ -51,5 +51,8 @@
         "./packages/cards/swipe-card:dev"
       ]
     }
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.26.2"
   }
 }
