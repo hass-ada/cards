@@ -23,7 +23,7 @@
     "dev:cards": "wireit",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.json --fix",
     "changeset:version": "changeset version",
-    "prerelease": "pnpm run build",
+    "prepublish": "pnpm run build",
     "release": "changeset publish"
   },
   "dependencies": {
