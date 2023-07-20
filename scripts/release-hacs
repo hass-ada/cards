@@ -1,4 +1,5 @@
 #!/usr/bin/env zx
+/* eslint-disable n/prefer-global/process */
 /* eslint-disable no-undef */
 
 import 'zx/globals'
@@ -8,8 +9,8 @@ cd(path.resolve(__dirname, '..'))
 const packagesDir = path.resolve(__dirname, '../packages')
 const workspaces = JSON.parse(await $`pnpm recursive list -r --json --depth=1`)
 if (!fs.existsSync('./pnpm-publish-summary.json'))
-  exit(0)
-const allPublishedPackages = await fs.readJSON('./pnpm-publish-summary.json').publishedPackages
+  process.exit(0)
+const allPublishedPackages = (await fs.readJSON('./pnpm-publish-summary.json')).publishedPackages
 const cardPublishedPackages = allPublishedPackages.filter((publishedPkg) => {
   const workspace = workspaces.find(workspace => workspace.name === publishedPkg.name)
   const workspaceDir = path.relative(packagesDir, workspace.path)
@@ -19,7 +20,7 @@ const cardPublishedPackages = allPublishedPackages.filter((publishedPkg) => {
 echo`Found ${cardPublishedPackages.length} published cards: ${cardPublishedPackages.map(pkg => pkg.name).join(', ')}`
 
 if (cardPublishedPackages.length === 0)
-  exit(0)
+  process.exit(0)
 
 const tmp = path.resolve(__dirname, '../tmp')
 await $`mkdir -p ${tmp}`
