@@ -1,10 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@tsconfig/recommended/tsconfig.json",
+  "display": "@hass-ada/tsconfig",
   "compilerOptions": {
     "module": "ESNext",
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
+    "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "lib": ["ESNext", "DOM"]
   }

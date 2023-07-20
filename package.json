@@ -11,14 +11,43 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "dev": "pnpm run build && pnpm -r run --parallel dev",
-    "build": "pnpm -r run build",
+    "build": "pnpm run build:cards",
+    "build:infra": "wireit",
+    "build:cards": "wireit",
+    "watch": "pnpm run build --watch",
+    "watch:infra": "pnpm run build:infra --watch",
+    "watch:cards": "pnpm run build:cards --watch",
+    "dev": "pnpm run dev:cards --watch",
+    "dev:cards": "wireit",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.json --fix"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
     "@tsconfig/node18": "^18.2.0",
     "@types/node": "^20.4.2",
-    "eslint": "^8.45.0"
+    "eslint": "^8.45.0",
+    "wireit": "^0.10.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "rollup-plugin-swc3": "0.9.0"
+    }
+  },
+  "wireit": {
+    "build:infra": {
+      "dependencies": [
+        "./packages/card:build",
+        "./packages/bundler/bundler-helpers:build",
+        "./packages/bundler/card-bundler:build"
+      ]
+    },
+    "build:cards": {
+      "dependencies": [
+      ]
+    },
+    "dev:cards": {
+      "dependencies": [
+      ]
+    }
   }
 }

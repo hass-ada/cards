@@ -34,7 +34,7 @@ HACS options:
 `
 
 export function resolveArguments(parsed: Arguments): CardBundlerBuildConfig {
-// Resolve arguemnts
+  // Resolve arguemnts
   const resolved = {} as CardBundlerBuildConfig
 
   // Base
@@ -139,7 +139,22 @@ export async function run(parsed: Arguments) {
   await runRollup(rollupOptions, resolved)
 }
 
+async function startBuild(configs: RollupOptions[]): Promise<void> {
+  for (const config of configs) {
+    const start = performance.now()
+    const build = await rollup(config)
+    for (const output of (Array.isArray(config.output) ? config.output : [config.output]))
+      await build.write(output!)
+    stderr(green(`created in ${bold(ms(performance.now() - start))}`))
+  }
+}
+
 export async function runRollup(configs: RollupOptions[], resolved: CardBundlerBuildConfig): Promise<void> {
+  if (!resolved.watch) {
+    await startBuild(configs)
+    return
+  }
+
   process.env.ROLLUP_WATCH = 'true'
   const isTTY = process.stderr.isTTY
   let watcher: RollupWatcher
@@ -154,18 +169,7 @@ export async function runRollup(configs: RollupOptions[], resolved: CardBundlerB
 
   const silent = false
 
-  if (resolved.watch)
-    await startWatch()
-  else
-    await startBuild()
-
-  async function startBuild(): Promise<void> {
-    for (const config of configs) {
-      const build = await rollup(config)
-      for (const output of (Array.isArray(config.output) ? config.output : [config.output]))
-        await build.write(output!)
-    }
-  }
+  await startWatch()
 
   async function startWatch(): Promise<void> {
     watcher = watch(configs as any)
@@ -223,8 +227,8 @@ export async function runRollup(configs: RollupOptions[], resolved: CardBundlerB
       process.exit(code)
   }
 
-  // return a promise that never resolves to keep the process running
-  return new Promise(() => {})
+  // Never resolve
+  return new Promise(() => { })
 }
 
 function closeWithError(error: Error): void {

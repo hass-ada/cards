@@ -65,7 +65,7 @@ export class CardBundlerBuildGenerator implements CardBundlerBuildGeneratorInter
         throw new Error('Multiple inputs with the name "index". Please use object syntax to specify input names instead of array.')
 
       return Object.fromEntries(input.map((p, i) => {
-        const name = i === indexes[0] ? this.pkg.name : names[i]
+        const name = i === indexes[0] ? this.pkg.name.replace(/(.+\/)/, '') : names[i]
         return [name, p]
       }))
     }
@@ -119,14 +119,12 @@ export class CardBundlerBuildGenerator implements CardBundlerBuildGeneratorInter
       plugins.assets.sourcePlugin(this.bundleMap, ve),
       plugins.variantWrapper(ve),
       {
-        name: 'ada-watch-notify',
+        name: 'ada-notify',
         buildStart: (options) => {
-          if (this.config.watch) {
-            const inputsWithVe = Object.keys(options.input).flatMap(i => `${ve.variant === 'default' ? '' : `${ve.variant}/`}${i}`)
-            stderr(cyan(
+          const inputsWithVe = Object.keys(options.input).flatMap(i => `${ve.variant === 'default' ? '' : `${ve.variant}/`}${i}`)
+          stderr(cyan(
             `${bold(inputsWithVe.join(', '))} (${ve.env})...`,
-            ))
-          }
+          ))
         },
       },
       // visualizer({

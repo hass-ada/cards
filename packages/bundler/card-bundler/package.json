@@ -31,22 +31,27 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "dev": "pnpm run rollup -w",
-    "build": "pnpm run clean && pnpm run rollup",
-    "rollup": "rollup --config rollup.config.ts --configPlugin 'swc3'",
-    "clean": "rm -rf dist/*"
+    "build": "wireit"
   },
-  "peerDependencies": {
+  "wireit": {
+    "build": {
+      "command": "rollup --config rollup.config.ts --configPlugin 'swc3' --watch.onEnd 'echo \"rollup.watch.onEnd\"'",
+      "files": ["src/**/*.ts", "tsconfig.json", "rollup.config.ts"],
+      "output": ["dist/**"],
+      "clean": "if-file-deleted",
+      "dependencies": ["../bundler-helpers:build"]
+    }
+  },
+  "dependencies": {
+    "@hass-ada/bundler-helpers": "workspace:^",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@swc/core": "^1.3.0",
+    "@swc/helpers": "^0.5.1",
     "read-pkg-up": "^10.0.0",
     "rollup": "^3.0.0",
     "rollup-plugin-swc3": "^0.9.0"
-  },
-  "dependencies": {
-    "@swc/helpers": "^0.5.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",

@@ -25,10 +25,9 @@ export function makeOptions(generator: CardBundlerBuildGeneratorInterface): Roll
       placeholder(),
       packageJson(generator),
       {
-        name: 'ada-watch-notify',
+        name: 'ada-notify',
         buildStart: () => {
-          if (generator.config.watch)
-            stderr(cyan(`${bold('package.json')}, ${bold('readme')}...`))
+          stderr(cyan(`${bold('package.json')}, ${bold('readme')}...`))
         },
       },
     ],

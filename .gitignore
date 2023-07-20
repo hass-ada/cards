@@ -11,4 +11,7 @@ node_modules/
 
 # --- Build output ---
 dist/
+hacs/
 
+# --- wireit ---
+.wireit

@@ -32,16 +32,20 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "dev": "pnpm run rollup -w",
-    "build": "pnpm run clean && pnpm run rollup",
-    "rollup": "rollup --config rollup.config.ts --configPlugin 'swc3'",
-    "clean": "rm -rf dist/*"
+    "build": "wireit"
+  },
+  "wireit": {
+    "build": {
+      "command": "rollup --config rollup.config.ts --configPlugin 'swc3'",
+      "files": ["src/**/*.ts", "tsconfig.json", "rollup.config.ts"],
+      "output": ["dist/**"]
+    }
   },
   "devDependencies": {
     "@hass-ada/tsconfig": "workspace:^",
     "@swc/core": "^1.3.70",
     "rollup": "^3.26.3",
     "rollup-plugin-dts": "^5.3.0",
-    "rollup-plugin-swc3": "0.9.1"
+    "rollup-plugin-swc3": "^0.9.0"
   }
 }

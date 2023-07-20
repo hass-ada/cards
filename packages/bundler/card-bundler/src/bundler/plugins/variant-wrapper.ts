@@ -20,7 +20,7 @@ export function variantWrapper(ve: VariantEnvironment): Plugin {
       ${cards.map(card => `${card}.register();`).join('\n')}
     `,
     'bundle/frontend': (module, cards) => `
-      import { registerWhenReady } from '@hass-ada/helpers/frontend/ready';
+      import { registerWhenReady } from '@hass-ada/bundler-helpers/frontend/ready';
       import { ${cards.join(', ')} } from ${JSON.stringify(module)};
       registerWhenReady([${cards.join(', ')}]);
     `,

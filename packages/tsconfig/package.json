@@ -5,6 +5,7 @@
   "description": "Simple typescript config for developing home-assistant lovelace cards",
   "author": "Ada",
   "license": "MIT",
+  "repository": "https://github.com/hass-ada/cards",
   "files": [
     "tsconfig.json"
   ],
