@@ -44,13 +44,10 @@ jobs:
 
       - name: Publish to github packages
         if: steps.changesets.outputs.hasChangesets == 'false'
-        run: pnpm -r publish --access public
+        run: pnpm -r publish --access public --report-summary
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update card repos with new hacs files
-        if: steps.changesets.outputs.published == 'true'
         # You can do something when a publish happens.
         run: pnpm exec zx scripts/release-hacs
-        env:
-          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
