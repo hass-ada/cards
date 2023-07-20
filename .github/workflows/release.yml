@@ -38,11 +38,12 @@ jobs:
         uses: changesets/action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to github packages
         if: steps.changesets.outputs.hasChangesets == 'false'
         run: pnpm -r publish --access public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update card repos with new hacs files
         if: steps.changesets.outputs.published == 'true'
