@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions: {}
+jobs:
+  release:
+    name: Release + changeset
+    runs-on: ubuntu-latest
+    # prevents this action from running on forks
+    if: github.repository == '@hass-ada/cards'
+    permissions:
+      contents: write # to create release
+      pull-requests: write # to create pull request
+      packages: write # to publish to github packages
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          # we need to fetch all history so that changesets can find the previous release
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+      - name: Setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: pnpm
+
+      - name: Run pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Create release pull request
+        id: changesets
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to github packages
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        run: pnpm -r publish --access public
+
+      - name: Update card repos
+        if: steps.changesets.outputs.published == 'true'
+        # You can do something when a publish happens.
+        run: 

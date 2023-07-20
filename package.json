@@ -19,7 +19,13 @@
     "watch:cards": "pnpm run build:cards --watch",
     "dev": "pnpm run dev:cards --watch",
     "dev:cards": "wireit",
-    "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.json --fix"
+    "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.json --fix",
+    "changeset:version": "changeset version",
+    "prerelease": "pnpm run build",
+    "release": "changeset publish"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.26.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
@@ -51,8 +57,5 @@
         "./packages/cards/swipe-card:dev"
       ]
     }
-  },
-  "dependencies": {
-    "@changesets/cli": "^2.26.2"
   }
 }
