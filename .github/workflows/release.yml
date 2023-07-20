@@ -34,15 +34,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm run build
+        run: pnpm run build:infra && pnpm install --frozen-lockfile && pnpm run build
 
       - name: Create release pull request
         id: changesets
         uses: changesets/action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      
 
       - name: Publish to github packages
         if: steps.changesets.outputs.hasChangesets == 'false'
