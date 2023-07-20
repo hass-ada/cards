@@ -43,10 +43,12 @@
     },
     "build:cards": {
       "dependencies": [
+        "./packages/cards/swipe-card:build"
       ]
     },
     "dev:cards": {
       "dependencies": [
+        "./packages/cards/swipe-card:dev"
       ]
     }
   }
