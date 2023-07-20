@@ -1,7 +1,7 @@
 {
   "name": "@hass-ada/swipe-card",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "A card thats lets you swipe through multiple Lovelace cards.",
   "author": "Ada",
   "license": "MIT",
