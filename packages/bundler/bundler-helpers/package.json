@@ -1,7 +1,7 @@
 {
   "name": "@hass-ada/bundler-helpers",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Dependency helpers for @hass-ada/card-bundler",
   "author": "Ada",
   "license": "MIT",
@@ -37,10 +37,18 @@
   "wireit": {
     "build": {
       "command": "rollup --config rollup.config.ts --configPlugin 'swc3'",
-      "files": ["src/**/*.ts", "tsconfig.json", "rollup.config.ts"],
-      "output": ["dist/**"],
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "rollup.config.ts"
+      ],
+      "output": [
+        "dist/**"
+      ],
       "clean": "if-file-deleted",
-      "dependencies": ["../../card:build"]
+      "dependencies": [
+        "../../card:build"
+      ]
     }
   },
   "dependencies": {
