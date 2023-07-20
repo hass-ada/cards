@@ -9,5 +9,6 @@ module.exports = {
   extends: ['@antfu'],
   rules: {
     'no-console': 'off',
+    'yml/no-empty-mapping-value': 'off',
   },
 }
