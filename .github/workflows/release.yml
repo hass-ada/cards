@@ -5,17 +5,18 @@ on:
     branches:
       - main
 
-permissions: {}
+permissions:
+  contents: write # to create release
+  pull-requests: write # to create pull request
+  packages: write # to publish to github packages
 jobs:
   release:
     name: Release + changeset
     runs-on: ubuntu-latest
     # prevents this action from running on forks
     if: github.repository == 'hass-ada/cards'
-    permissions:
-      contents: write # to create release
-      pull-requests: write # to create pull request
-      packages: write # to publish to github packages
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -39,14 +40,10 @@ jobs:
       - name: Create release pull request
         id: changesets
         uses: changesets/action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to github packages
         if: steps.changesets.outputs.hasChangesets == 'false'
         run: pnpm -r publish --access public --report-summary
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update card repos with new hacs files
         if: steps.changesets.outputs.hasChangesets == 'false'
