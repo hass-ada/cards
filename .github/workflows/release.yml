@@ -47,4 +47,4 @@ jobs:
       - name: Update card repos
         if: steps.changesets.outputs.published == 'true'
         # You can do something when a publish happens.
-        run: 
+        run: echo "Placeholder"
