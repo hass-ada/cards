@@ -1,7 +1,7 @@
 {
   "name": "@hass-ada/card-bundler",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Bundler tool for home assistant lovelace cards.",
   "author": "Ada",
   "license": "MIT",

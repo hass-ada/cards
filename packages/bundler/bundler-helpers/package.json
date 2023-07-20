@@ -1,7 +1,7 @@
 {
   "name": "@hass-ada/bundler-helpers",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Dependency helpers for @hass-ada/card-bundler",
   "author": "Ada",
   "license": "MIT",

@@ -1,7 +1,7 @@
 {
   "name": "@hass-ada/card",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Card helpers for making home assistant lovelace cards.",
   "author": "Ada",
   "license": "MIT",
