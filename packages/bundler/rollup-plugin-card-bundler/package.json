@@ -1,0 +1,72 @@
+{
+  "name": "@hass-ada/rollup-plugin-card-bundler",
+  "type": "module",
+  "version": "0.1.2",
+  "description": "Card helpers for making home assistant lovelace cards.",
+  "author": "Ada",
+  "license": "MIT",
+  "repository": "https://github.com/hass-ada/cards",
+  "keywords": [
+    "home-assistant",
+    "lovelace",
+    "card"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "import": "./dist/config/index.js"
+    },
+    "./config/wrapper": {
+      "types": "./dist/config/wrapper.d.ts",
+      "import": "./dist/config/wrapper.js"
+    },
+    "./wrapper": {
+      "types": "./dist/wrapper.d.ts",
+      "import": "./dist/wrapper.js"
+    },
+    "./dist/*": "./dist/*"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "wireit"
+  },
+  "wireit": {
+    "build": {
+      "command": "rollup --config rollup.config.ts --configPlugin 'swc3'",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "rollup.config.ts"
+      ],
+      "output": [
+        "dist/**"
+      ]
+    }
+  },
+  "dependencies": {
+    "@fastify/deepmerge": "^1.3.0",
+    "rollup": "^3.26.3"
+  },
+  "devDependencies": {
+    "@hass-ada/tsconfig": "workspace:^",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/pluginutils": "^5.0.2",
+    "@swc/core": "^1.3.70",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-swc3": "^0.9.0"
+  }
+}
