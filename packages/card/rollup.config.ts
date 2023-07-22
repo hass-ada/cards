@@ -4,8 +4,9 @@ import dts from 'rollup-plugin-dts'
 
 const mainConfig = defineConfig({
   input: {
-    index: 'src/index.ts',
-    decorators: 'src/decorators.ts',
+    'index': 'src/index.ts',
+    'decorators': 'src/decorators.ts',
+    'bundler-helpers/frontend-ready': 'src/bundler-helpers/frontend-ready.ts',
   },
   output: {
     dir: 'dist',

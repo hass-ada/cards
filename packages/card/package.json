@@ -20,6 +20,10 @@
       "types": "./dist/decorators.d.ts",
       "import": "./dist/decorators.js"
     },
+    "./bundler-helpers/*": {
+      "types": "./dist/bundler-helpers/*",
+      "import": "./dist/bundler-helpers/*"
+    },
     "./dist/*": "./dist/*"
   },
   "main": "dist/index.js",
